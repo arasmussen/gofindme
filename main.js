@@ -19,9 +19,9 @@ let {
   View,
 } = React;
 
-let ExBoxes = require('./ExBoxes');
-let ExPhotoGallery = require('./ExPhotoGallery');
-let ExScreen = require('./ExScreen');
+let ExBoxes = require('./js/ExBoxes');
+let ExPhotoGallery = require('./js/ExPhotoGallery');
+let ExScreen = require('./js/ExScreen');
 
 let HORIZ_SPACE = 12;
 
