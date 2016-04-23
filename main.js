@@ -17,22 +17,13 @@ class GoFindMe extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      headerColor: '#007aff',
-      isBoxPressed: false,
     };
   }
 
   render() {
-    let boxColors = [
-      '#5ac8fa', '#ffcc00', '#ff9500', '#ff2d55', '#563b7e', '#007aff',
-      '#4cd964', '#ff3b30', '#8e8e93',
-    ];
-
     return (
       <Screen
         title="Go Find Me"
-        headerColor={this.state.headerColor}
-        scrollEnabled={!this.state.isBoxPressed}
         style={styles.container}>
         <Text style={styles.helloWorldText}>
           Sup Viewers!
@@ -44,12 +35,8 @@ class GoFindMe extends React.Component {
   componentDidMount() {
     if (StatusBarIOS) {
       StatusBarIOS.setStyle('light-content', true);
-      StatusBarIOS.setHidden(false, 'fade');
+      StatusBarIOS.setHidden(true);
     }
-  }
-
-  _handleColorSelected(color) {
-    this.setState({ headerColor: color });
   }
 }
 
@@ -60,7 +47,7 @@ let styles = StyleSheet.create({
   },
   helloWorldText: {
     color: '#ff69bf',
-    fontSize: 28,
+    fontSize: 32,
     marginTop: 20,
     textAlign: 'center',
   },
