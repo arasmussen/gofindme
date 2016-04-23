@@ -8,6 +8,7 @@ let {
   AppRegistry,
   StatusBarIOS,
   StyleSheet,
+  Text,
 } = React;
 
 let Screen = require('./js/Screen');
@@ -33,6 +34,9 @@ class GoFindMe extends React.Component {
         headerColor={this.state.headerColor}
         scrollEnabled={!this.state.isBoxPressed}
         style={styles.container}>
+        <Text style={styles.helloWorldText}>
+          Sup Viewers!
+        </Text>
       </Screen>
     );
   }
@@ -53,6 +57,12 @@ let styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  helloWorldText: {
+    color: '#ff69bf',
+    fontSize: 28,
+    marginTop: 20,
+    textAlign: 'center',
   },
 });
 
