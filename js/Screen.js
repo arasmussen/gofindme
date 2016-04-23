@@ -8,11 +8,11 @@ let {
   View,
 } = React;
 
-let ExHeader = require('./ExHeader');
+let Header = require('./Header');
 
 const STATUS_BAR_HEIGHT = 20;
 
-class ExScreen extends React.Component {
+class Screen extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -38,10 +38,10 @@ class ExScreen extends React.Component {
           showsVerticalScrollIndicator={false}
           scrollEventThrottle={16}
           onScroll={this._handleScroll.bind(this)}>
-          <View style={{ height: ExHeader.HEIGHT + STATUS_BAR_HEIGHT }} />
+          <View style={{ height: Header.HEIGHT + STATUS_BAR_HEIGHT }} />
           {props.children}
         </ScrollView>
-        <ExHeader
+        <Header
           title={title}
           scrollDistance={this.state.scrollDistance}
           style={[styles.header, { backgroundColor: headerColor }]}
@@ -72,4 +72,4 @@ let styles = StyleSheet.create({
   },
 });
 
-module.exports = ExScreen;
+module.exports = Screen;

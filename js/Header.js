@@ -12,7 +12,7 @@ let BODY_HEIGHT = 44;
 let TITLE_MARGIN_TOP = 12;
 let STATUS_BAR_HEIGHT = 20;
 
-class ExHeader extends React.Component {
+class Header extends React.Component {
   render() {
     let {
       title,
@@ -62,7 +62,7 @@ class ExHeader extends React.Component {
   }
 }
 
-ExHeader.HEIGHT = BODY_HEIGHT;
+Header.HEIGHT = BODY_HEIGHT;
 
 let styles = StyleSheet.create({
   container: {
@@ -83,4 +83,4 @@ let styles = StyleSheet.create({
   },
 });
 
-module.exports = ExHeader;
+module.exports = Header;
