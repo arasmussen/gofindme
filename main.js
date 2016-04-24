@@ -6,10 +6,16 @@
 let React = require('react-native');
 let {
   AppRegistry,
+  NativeModules,
+  Platform,
   StatusBarIOS,
   StyleSheet,
   Text,
 } = React;
+
+const {
+  ExponentLocation
+} = NativeModules;
 
 let Screen = require('./js/Screen');
 
@@ -23,16 +29,29 @@ class GoFindMe extends React.Component {
   }
 
   getLocation() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
+    if (Platform.OS === 'ios') {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({
+            position: position,
+          });
+          this.getNeighborhood();
+        },
+        (error) => console.error(error.message),
+        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      );
+    } else if (Platform.OS === 'android') {
+      ExponentLocation.getCurrentPositionAsync({
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 1000,
+      }).then((position) => {
         this.setState({
           position: position,
         });
         this.getNeighborhood();
-      },
-      (error) => console.error(error.message),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-    );
+      });
+    }
   }
 
   getNeighborhood() {
