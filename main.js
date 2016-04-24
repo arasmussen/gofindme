@@ -17,12 +17,33 @@ class GoFindMe extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
+      position: null,
       neighborhood: null,
     };
   }
 
+  getLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          position: position,
+        });
+        this.getNeighborhood();
+      },
+      (error) => console.error(error.message),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    );
+  }
+
   getNeighborhood() {
-    fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=37.762219,-122.415614&key=AIzaSyDxT6NnOfiGq5zuVGLDczPVoWwhtwkNWVU', {
+    var latitude = this.state.position.coords.latitude;
+    var longitude = this.state.position.coords.longitude;
+
+    var fetchURL = 'https://maps.googleapis.com/maps/api/geocode/json';
+    fetchURL += '?latlng=' + latitude + ',' + longitude;
+    fetchURL += '&key=AIzaSyDxT6NnOfiGq5zuVGLDczPVoWwhtwkNWVU';
+
+    fetch(fetchURL, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -30,13 +51,26 @@ class GoFindMe extends React.Component {
       }
     }).then(function(response) {
       response.json().then(function(responseObject) {
-        for (var i = 0; i < responseObject.results[0].address_components.length; i++) {
-          var address_component = responseObject.results[0].address_components[i];
+        var address_components = responseObject.results[0].address_components;
+
+        for (var i = 0; i < address_components.length; i++) {
+          var address_component = address_components[i];
           if (address_component.types.indexOf('neighborhood') !== -1) {
             this.setState({
               neighborhood: address_component.long_name,
             });
-            break;
+            return;
+          }
+        }
+
+        // no neighborhood found
+        for (var i = 0; i < address_components.length; i++) {
+          var address_component = address_components[i];
+          if (address_component.types.indexOf('locality') !== -1) {
+            this.setState({
+              neighborhood: address_component.long_name,
+            });
+            return;
           }
         }
       }.bind(this)).catch(function(err) {
@@ -64,7 +98,8 @@ class GoFindMe extends React.Component {
       StatusBarIOS.setStyle('light-content', true);
       StatusBarIOS.setHidden(true);
     }
-    this.getNeighborhood();
+
+    this.getLocation();
   }
 }
 
